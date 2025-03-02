@@ -8,27 +8,8 @@ const port = process.env.PORT_URL;
 const database = require("./config/database");
 database.connect();
 
-const Task = require("./model/task.model");
-
-app.get("/tasks/detail/:id", async (req, res) => {
-    try {
-        const id = req.params.id;
-
-        const tasks = await Task.findOne({
-            _id: id,
-            deleted: false
-        });
-        console.log(tasks);
-        res.json(tasks);
-    } catch (error) {
-        res.json("Không tìm thấy!!!");
-    }
-
-
-    // const tasks = await Task.find({
-    //     deleted: false,
-    // })
-});
+const routerApiVer1 = require("./api/v1/routes/index.route");
+routerApiVer1(app);
 
 app.listen(port, () => {
     console.log(`Kết nối thành công với http://localhost:${port}`)
