@@ -6,10 +6,23 @@ const Task = require("../../../model/task.model");
 //const controller = require("");
 
 router.get("/", async (req, res) => {
-    const tasks = await Task.find({
+    const find = {
         deleted: false,
-    })
-    console.log(tasks);
+    };
+
+    if (req.query.status) {
+        find.status = req.query.status;
+    }
+
+    console.log(req.query);
+    //Sort
+    const sort = {};
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    }
+    //End Sort
+
+    const tasks = await Task.find(find).sort(sort);
     res.json(tasks);
 });
 
